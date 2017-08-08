@@ -8,7 +8,7 @@ import com.tencent.tinker.loader.shareutil.ShareConstants;
 
 /**
  * Created by kenny on 2017/3/16.
- * @function: 1.较验patch文件是否合法  2.启动Service去安装patch文件
+ * 功能: 1.较验patch文件是否合法(md5校验,从服务器获取)  2.启动Service去安装patch文件
  */
 public class CustomPatchListener extends DefaultPatchListener {
 
@@ -30,8 +30,6 @@ public class CustomPatchListener extends DefaultPatchListener {
 
             return ShareConstants.ERROR_PATCH_DISABLE;
         }
-
-
         return super.patchCheck(path);
     }
 }

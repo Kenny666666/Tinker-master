@@ -95,14 +95,14 @@ ext {
     //代表启动tinker，也是tinker启用的开关
     tinkerEnable = true
     //old的apk存放路径
-    tinkerOldApkPath = "${bakPath}/app-release-0626-14-59-39.apk"
+    tinkerOldApkPath = "${bakPath}/app-0808-11-59-06"
     //old apk打包时所使用的混淆文件路径
-    tinkerApplyMappingPath = "${bakPath}/app-release-0626-14-59-39-mapping.txt"
+    tinkerApplyMappingPath = "${bakPath}/app-0808-11-59-06"
     //old apk的资源文件
-    tinkerApplyResourcePath = "${bakPath}/app-release-0626-14-59-39-R.txt"
+    tinkerApplyResourcePath = "${bakPath}/app-0808-11-59-06"
     //tinkerID
     tinkerID = "1.0"
-    tinkerBuildFlavorDirectory = "${bakPath}/"
+    tinkerBuildFlavorDirectory = "${bakPath}/app-0808-11-59-06"
 }
 
 //判断是否使用了tinker的方法
@@ -176,7 +176,7 @@ if (buildWithTinker()) {
             //指定tinker要处理的dex文件都在哪此目录-->apk文件中的classes.dex
             pattern = ["classes*.dex", "assets/secondary-dex-?.jar"]
             //指定加载patch文件时用到的类
-            loader = ["com.kenny.tinker.MyTinkerApplication"]
+            loader = ["com.kenny.tinker.tinkermanager.MyTinkerApplication"]
         }
 
         lib {
@@ -253,7 +253,9 @@ if (buildWithTinker()) {
 
 
     project.afterEvaluate {
+        //多渠道脚本，此处判断是否有多渠道，有则执行下面这段
         if (hasFlavors) {
+            //生成所有release的patch文件
             task(tinkerPatchAllFlavorRelease) {
                 group = 'tinker'
                 def originOldPath = getTinkerBuildFlavorDirectory()
@@ -269,7 +271,7 @@ if (buildWithTinker()) {
                     }
                 }
             }
-
+            //生成所有debug的patch文件
             task(tinkerPatchAllFlavorDebug) {
                 group = 'tinker'
                 def originOldPath = getTinkerBuildFlavorDirectory()
